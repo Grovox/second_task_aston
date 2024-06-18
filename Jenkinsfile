@@ -1,0 +1,3 @@
+buildPlugin(
+  useContainerAgent: false, // TestContainers
+)

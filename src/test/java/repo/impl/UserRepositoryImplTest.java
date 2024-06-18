@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import db.DataSource;
 import model.User;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.ext.ScriptUtils;
@@ -19,7 +20,7 @@ class UserRepositoryImplTest {
     private static UserRepository repository;
     private static final String initSQLScript = "sql/initSQLScript.sql";
     @Container
-    private static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:16-alpine");
+    private static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:16-alpine");
     private static JdbcDatabaseDelegate jdbcDatabaseDelegate;
 
     @BeforeAll
@@ -27,13 +28,7 @@ class UserRepositoryImplTest {
         postgresContainer.start();
         jdbcDatabaseDelegate = new JdbcDatabaseDelegate(postgresContainer, "");
 
-        Properties props = new Properties();
-        props.setProperty("jdbcUrl", postgresContainer.getJdbcUrl());
-        props.setProperty("dataSource.serverName", postgresContainer.getHost());
-        props.setProperty("dataSource.portNumber", postgresContainer.getFirstMappedPort().toString());
-        props.setProperty("dataSource.databaseName", postgresContainer.getDatabaseName());
-        props.setProperty("dataSource.user", postgresContainer.getUsername());
-        props.setProperty("dataSource.password", postgresContainer.getPassword());
+        Properties props = getProperties();
 
         HikariDataSource ds = new HikariDataSource(new HikariConfig(props));
         DataSource dataSource = DataSource.getInstance();
@@ -41,6 +36,18 @@ class UserRepositoryImplTest {
         Field field = DataSource.class.getDeclaredField("ds");
         field.setAccessible(true);
         field.set(dataSource, ds);
+    }
+
+    @NotNull
+    private static Properties getProperties() {
+        Properties props = new Properties();
+        props.setProperty("jdbcUrl", postgresContainer.getJdbcUrl());
+        props.setProperty("dataSource.serverName", postgresContainer.getHost());
+        props.setProperty("dataSource.portNumber", postgresContainer.getFirstMappedPort().toString());
+        props.setProperty("dataSource.databaseName", postgresContainer.getDatabaseName());
+        props.setProperty("dataSource.user", postgresContainer.getUsername());
+        props.setProperty("dataSource.password", postgresContainer.getPassword());
+        return props;
     }
 
     @AfterAll
@@ -105,7 +112,7 @@ class UserRepositoryImplTest {
 
         repository.delete(userDelete);
 
-        Assertions.assertEquals(repository.getAll().size(), 0);
+        Assertions.assertEquals(0, repository.getAll().size());
     }
 
     @Test
@@ -119,7 +126,7 @@ class UserRepositoryImplTest {
 
         List<User> users = repository.getAll();
 
-        Assertions.assertEquals(users.size(), 3);
+        Assertions.assertEquals(3, users.size());
     }
 
     @Test
@@ -137,7 +144,7 @@ class UserRepositoryImplTest {
 
         User user = repository.findById(2);
 
-        Assertions.assertEquals(user.getName(), "Joe");
-        Assertions.assertEquals(user.getAge(), 11);
+        Assertions.assertEquals("Joe", user.getName());
+        Assertions.assertEquals(11, user.getAge());
     }
 }

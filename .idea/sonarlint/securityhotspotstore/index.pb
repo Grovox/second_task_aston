@@ -13,16 +13,6 @@ W
 'src/main/java/servlets/UserServlet.java,c\e\ce8930edd30af1384d17fc38ac7b00834d11cda2
 P
  src/main/java/model/BuyBook.java,4\c\4c6cffadc0d4ab715c5d1416a0a4abcf4e3c84c5
-T
-$src/main/java/dbpoll/DataSource.java,a\0\a0a157d315b46f590e435cf998d87ec23c279039
-S
-#src/main/java/repo/BuyBookRepo.java,b\8\b87e4e575d0e786b029cc504ecbbf4098b6a0629
-R
-"src/main/java/repo/AuthorRepo.java,1\3\1367903884004afe81ed5e47b4d7c20361a354c6
-P
- src/main/java/repo/BookRepo.java,3\9\39c719bb5e08c10e2da224ed1f77a7e071a1385d
-P
- src/main/java/repo/UserRepo.java,3\6\368761750be42d9af4fb32376a51d66e59f5c274
 W
 'src/main/java/servlets/BookServlet.java,a\2\a27fd8d170ec0793fc06ba28c7fa9f39ec74a02a
 Y
@@ -94,22 +84,8 @@ Q.idea/sonarlint/securityhotspotstore/c/7/c74d19c87df35c5df317c05ecd235c4ceb8c9c
 Q.idea/sonarlint/securityhotspotstore/1/3/1367903884004afe81ed5e47b4d7c20361a354c6,0\2\02c1703123e495356c89e596824b40f6167816c7
 Å
 Q.idea/sonarlint/securityhotspotstore/c/e/ce8930edd30af1384d17fc38ac7b00834d11cda2,2\8\28a492263574500964d0b7ad5ad68d08159c5c6f
-W
-'src/test/java/DBConnectionProvider.java,f\6\f67d6cbe10cc5c7bbeee08e07d67fd7b4d8e71b7
-R
-"src/test/java/CustomerService.java,c\6\c64a4a317e278f6e3bc62ad353443831c5e0d86f
 P
  src/main/java/db/DataSource.java,0\7\0755552e63419fe77e181b5a36ba5f102b6c4bf3
-V
-&src/main/java/repo/AuthorRepoImpl.java,e\6\e66c13a12ad9eb93fb6a7691a00c15f1d99682a9
-T
-$src/main/java/repo/BookRepoImpl.java,8\e\8e1804005e8dbc4ce18b97504220058cf168dbfe
-Y
-)src/main/java/repo/impl/BookRepoImpl.java,5\7\57659cd4a0b84165b02ad366cbbc372872e38fbd
-[
-+src/main/java/repo/impl/AuthorRepoImpl.java,3\d\3d003b7c82cca95f5901e0239a80e6cee2ac1fc4
-W
-'src/main/java/repo/impl/Repository.java,7\2\725a0b9f1009f15f90d7c81e22640e18e504030a
 X
 (src/main/java/repo/AuthorRepository.java,7\b\7bd9be73dc09769fcaa86b711756ae08be2df081
 V
@@ -124,16 +100,10 @@ a
 1src/main/java/repo/impl/AuthorRepositoryImpl.java,2\6\26cd833ec69a72a6399f861155fb6732356c1686
 R
 "src/main/java/repo/Repository.java,c\6\c6d69cb33bdae1d99fd2b99f2bf01f86eac2f8e2
-\
-,src/main/java/repo/AuthorRepositoryImpl.java,e\6\e6026006194e43b3fee66dc2532168baaad90b87
-]
--src/main/java/repo/BuyBookRepositoryImpl.java,e\9\e99bc2eb1650627b5efd19764d28f57a3f99b80c
 V
 &src/main/java/repo/UserRepository.java,5\2\52dff3d641a92b5b4d671e6502f28b7502f35062
 S
 #src/main/java/model/AuthorBook.java,d\3\d3796853547807fb91a6eab830f0a1d8601b6e09
-V
-&src/main/java/dto/BookWithAuthors.java,7\5\752e3a78fdc27598bc15d67d5c5f71e5cd6acec5
 _
 /src/main/java/repo/impl/BookRepositoryImpl.java,3\5\355ab96eb91ed992d88934feb355f9c93b322a3d
 _
@@ -142,16 +112,12 @@ b
 2src/main/java/repo/impl/BuyBookRepositoryImpl.java,5\6\56d493553f45ba9952650e5ad50f301b1b0e089b
 N
 src/main/java/dto/BookGet.java,a\3\a3e4bc527755f8a63b9884c291174b71b74bcfa7
-I
-src/main/java/mapper.java,9\d\9dafe3574d5b998c91f350650374d9c3c275fdce
 T
 $src/main/java/mapper/UserMapper.java,d\b\dba5261dee03e3e5a9a3ae0cd68829dbe8a7ff2a
 W
 'src/main/java/mapper/BuyBookMapper.java,1\d\1db4276f8f2e32fd97f8f131316d1ce8b8cc69dd
 T
 $src/main/java/mapper/BookMapper.java,3\1\31c56d023f99450684164909baf63ca17d342b76
-R
-"src/main/java/dto/UserPostPut.java,3\4\3424dbb98c6406abaf592f9b26989b047dbd59c2
 Q
 !src/main/java/dto/UserDelete.java,e\3\e307713e45ab5ffbb88bee43ff2b8a754785031f
 Q
@@ -162,8 +128,6 @@ T
 $src/main/java/dto/BuyBookDelete.java,a\5\a50f7073bf0b346ced557e91d36bfcfc52599f9a
 V
 &src/main/java/mapper/AuthorMapper.java,d\b\db01734e35804a0443a9c3ab4c47ca685a55fb26
-N
-src/main/java/dto/BookDTO.java,5\5\55b76835ae707082004eb88566000a3b82439b85
 N
 src/main/java/dto/BookPut.java,0\c\0ca7f40041490a9e36481a214d5fa344f9ba8c84
 O
@@ -204,8 +168,6 @@ e
 5src/test/java/repo/impl/AuthorRepositoryImplTest.java,d\5\d5dbd2c7d7e4a851ead562280ec4854e13e0dc5d
 T
 $src/test/java/db/DataSourceTest.java,c\f\cf90d0b26c81d3b925f28d821ce0f6367785686c
-M
-src/test/java/converters.java,0\b\0b9cda6e2fe7088bf9672b9536c69253f606a7a1
 X
 (src/test/java/mapper/BookMapperTest.java,c\e\ce74609b1aa3c28a998548180a5e41ac7081e5b7
 Z
@@ -224,3 +186,7 @@ _
 /src/test/java/convectors/UserConvectorTest.java,7\f\7f0cd57782568c87878a8b2a1820cd35f09c0db5
 A
 testDB.properties,f\d\fd1d9db0ea43856422df51a163231fdf46b7359b
+;
+Jenkinsfile,0\c\0c2c5c506cef0ed2d3ad2b7e45e97980b66f5520
+B
+coverage-error.log,a\7\a7e343a3bb99f4bc4c7115957802542af0f1f1d3
