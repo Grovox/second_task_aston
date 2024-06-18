@@ -1,42 +1,74 @@
 package services;
 
+import dto.BuyBookDelete;
 import dto.BuyBookPost;
+import mapper.BuyBookMapper;
+import model.Book;
 import model.BuyBook;
-import repo.BookRepo;
-import repo.BuyBookRepo;
+import repo.BookRepository;
+import repo.BuyBookRepository;
+import repo.impl.BookRepositoryImpl;
+import repo.impl.BuyBookRepositoryImpl;
 
 import java.util.List;
 
 public class BuyBookService {
-    public static List<BuyBook> getAllBuyBooks() {
-        return BuyBookRepo.getAllBuyBooks();
+    private BuyBookRepository buyBookRepository = BuyBookRepositoryImpl.getInstance();
+    private BookRepository bookRepository = BookRepositoryImpl.getInstance();
+    private static BuyBookService instance;
+    private BuyBookService() {
     }
 
-    public static boolean haveBuyBookById(int buyBookId) {
-        return BuyBookRepo.haveBuyBookById(buyBookId);
+    public static synchronized BuyBookService getInstance() {
+        if (instance == null) {
+            instance = new BuyBookService();
+        }
+        return instance;
     }
 
-    public static void changeBuyBook(BuyBook buyBook) {
-        int pervAmountBuyBook = BuyBookRepo.getAmountBuyBookById(buyBook.getBuyBookId());
-        BookRepo.changeBookAmountById(buyBook.getAmount() - pervAmountBuyBook, buyBook.getBookId());
-        BuyBookRepo.changeBuyBook(buyBook);
+    public List<BuyBook> getAllBuyBooks() {
+        return buyBookRepository.getAll();
     }
 
-    public static void addBuyBook(BuyBookPost buyBookPost) {
-        BookRepo.changeBookAmountById(buyBookPost.getAmount(), buyBookPost.getBookId());
-        BuyBookRepo.addBuyBook(buyBookPost);
+    public boolean haveBuyBookById(int id) {
+        return buyBookRepository.findById(id) != null;
     }
 
-    public static boolean haveBuyBook(BuyBook buyBook) {
-        return BuyBookRepo.haveBuyBook(buyBook);
+    public void changeBuyBook(BuyBook buyBook) {
+        BuyBook buyBookDB = buyBookRepository.findById(buyBook.getBuyBookId());
+        if (buyBookDB.getBookId() == buyBook.getBookId()) {
+            Book book = bookRepository.findById(buyBook.getBookId());
+
+            int newAmountBook = book.getAmount() - (buyBook.getAmount() - buyBookDB.getAmount());
+            book.setAmount(newAmountBook);
+
+            bookRepository.update(book);
+            buyBookRepository.update(buyBook);
+        } else {
+            Book bookPrev = bookRepository.findById(buyBookDB.getBookId());
+            bookPrev.setAmount(bookPrev.getAmount() + buyBookDB.getAmount());
+            bookRepository.update(bookPrev);
+
+            Book bookNow = bookRepository.findById(buyBook.getBookId());
+            bookNow.setAmount(bookNow.getAmount() - buyBook.getAmount());
+            bookRepository.update(bookNow);
+            buyBookRepository.update(buyBook);
+        }
     }
 
-    public static void deleteBuyBook(BuyBook buyBook) {
-        BuyBookRepo.deleteBuyBook(buyBook);
+    public void addBuyBook(BuyBookPost buyBookPost) {
+        Book book = bookRepository.findById(buyBookPost.getBookId());
+        BuyBook buyBook = BuyBookMapper.buyBookPostToBuyBook(buyBookPost);
+
+        book.setAmount(book.getAmount() - buyBookPost.getAmount());
+        buyBook.setPrice(book.getPrice());
+
+        bookRepository.update(book);
+        buyBookRepository.save(buyBook);
     }
 
-    public static boolean isEnoughBooks(int bookId, int amount) {
-        int amountBook = BookRepo.getAmountBookById(bookId);
-        return amountBook >= amount;
+    public void deleteBuyBook(BuyBookDelete buyBookDelete) {
+        BuyBook buyBook = BuyBookMapper.buyBookDeleteToBuyBook(buyBookDelete);
+        buyBookRepository.delete(buyBook);
     }
 }

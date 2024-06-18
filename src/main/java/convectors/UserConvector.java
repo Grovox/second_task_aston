@@ -2,6 +2,7 @@ package convectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dto.UserDelete;
 import dto.UserPost;
 import model.User;
 
@@ -13,15 +14,36 @@ public class UserConvector {
     private UserConvector() {
     }
 
-    public static String allUsersToJsonString(List<User> users) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(users);
+    public static String allUsersToJsonString(List<User> users) {
+        try {
+            return objectMapper.writeValueAsString(users);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static User stringJsonToUser(String json) throws JsonProcessingException {
-        return objectMapper.readValue(json, User.class);
+    public static User stringJsonToUser(String json) {
+        try {
+            return objectMapper.readValue(json, User.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static UserPost stringJsonToUserPost(String json) throws JsonProcessingException {
-        return objectMapper.readValue(json, UserPost.class);
+    public static UserPost stringJsonToUserPost(String json) {
+        try {
+            return objectMapper.readValue(json, UserPost.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static UserDelete stringJsonToUserDelete(String json) {
+        try {
+
+            return objectMapper.readValue(json, UserDelete.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

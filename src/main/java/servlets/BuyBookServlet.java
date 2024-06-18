@@ -1,6 +1,7 @@
 package servlets;
 
 import convectors.BuyBookConvector;
+import dto.BuyBookDelete;
 import dto.BuyBookPost;
 import model.BuyBook;
 import services.BookService;
@@ -8,7 +9,6 @@ import services.BuyBookService;
 import services.UserService;
 import validators.JsonValidator;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,55 +16,65 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class BuyBookServlet extends HttpServlet {
+
+    private BuyBookService buyBookService;
+    private UserService userService;
+    private BookService bookService;
+
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        StringBuilder json = new StringBuilder();
-        String line = null;
-        BufferedReader reader = req.getReader();
+    public void init() {
+        buyBookService = BuyBookService.getInstance();
+        userService = UserService.getInstance();
+        bookService = BookService.getInstance();
+    }
+
+    private String getJsonFromRequest(HttpServletRequest req) throws IOException {
+        StringBuilder jsonBuilder = new StringBuilder();
+        String line;
+        BufferedReader reader;
+        reader = req.getReader();
         while ((line = reader.readLine()) != null)
-            json.append(line);
-        String stringJson = json.toString();
-        if (JsonValidator.validJsonToClass(stringJson, BuyBook.class)) {
-            BuyBook buyBook = BuyBookConvector.stringJsonToBuyBook(stringJson);
-            if (BuyBookService.haveBuyBookById(buyBook.getBuyBookId()) &&
-                    UserService.haveUserById(buyBook.getUserId()) &&
-                    BookService.haveBookById(buyBook.getBookId()) &&
-                    BuyBookService.isEnoughBooks(buyBook.getBookId(), buyBook.getAmount())) {
-                BuyBookService.changeBuyBook(buyBook);
+            jsonBuilder.append(line);
+        return jsonBuilder.toString();
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String json = getJsonFromRequest(req);
+
+        if (JsonValidator.validJsonToClass(json, BuyBook.class)) {
+            BuyBook buyBook = BuyBookConvector.stringJsonToBuyBook(json);
+            if (buyBookService.haveBuyBookById(buyBook.getBuyBookId()) &&
+                    userService.haveUserById(buyBook.getUserId()) &&
+                    bookService.haveBookById(buyBook.getBookId()) &&
+                    bookService.isEnoughBooks(buyBook)) {
+                buyBookService.changeBuyBook(buyBook);
             } else resp.sendError(412);
         } else resp.sendError(400);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        StringBuilder json = new StringBuilder();
-        String line = null;
-        BufferedReader reader = req.getReader();
-        while ((line = reader.readLine()) != null)
-            json.append(line);
-        String stringJson = json.toString();
-        if (JsonValidator.validJsonToClass(stringJson, BuyBookPost.class)) {
-            BuyBookPost buyBookPost = BuyBookConvector.stringJsonToBuyBookPost(stringJson);
-            if (UserService.haveUserById(buyBookPost.getUserId()) &&
-                    BookService.haveBookById(buyBookPost.getBookId()) &&
-                    BuyBookService.isEnoughBooks(buyBookPost.getBookId(), buyBookPost.getAmount())) {
-                BuyBookService.addBuyBook(buyBookPost);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String json = getJsonFromRequest(req);
+
+        if (JsonValidator.validJsonToClass(json, BuyBookPost.class)) {
+            BuyBookPost buyBookPost = BuyBookConvector.stringJsonToBuyBookPost(json);
+            if (userService.haveUserById(buyBookPost.getUserId()) &&
+                    bookService.haveBookById(buyBookPost.getBookId()) &&
+                    bookService.isEnoughBooks(buyBookPost)) {
+                buyBookService.addBuyBook(buyBookPost);
             } else resp.sendError(412);
         } else resp.sendError(400);
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        StringBuilder json = new StringBuilder();
-        String line = null;
-        BufferedReader reader = req.getReader();
-        while ((line = reader.readLine()) != null)
-            json.append(line);
-        String stringJson = json.toString();
-        if (JsonValidator.validJsonToClass(stringJson, BuyBook.class)) {
-            BuyBook buyBook = BuyBookConvector.stringJsonToBuyBook(stringJson);
-            if (BuyBookService.haveBuyBook(buyBook)) {
-                BuyBookService.deleteBuyBook(buyBook);
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String json = getJsonFromRequest(req);
+
+        if (JsonValidator.validJsonToClass(json, BuyBookDelete.class)) {
+            BuyBookDelete buyBook = BuyBookConvector.stringJsonToBuyBookDelete(json);
+            if (buyBookService.haveBuyBookById(buyBook.getBuyBookId())) {
+                buyBookService.deleteBuyBook(buyBook);
             } else resp.sendError(412);
         } else resp.sendError(400);
     }

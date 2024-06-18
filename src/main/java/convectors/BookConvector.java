@@ -3,8 +3,10 @@ package convectors;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dto.BookGet;
+import dto.BookDelete;
 import dto.BookPost;
-import model.Book;
+import dto.BookPut;
 
 import java.util.List;
 
@@ -14,16 +16,35 @@ public class BookConvector {
     private BookConvector() {
     }
 
-    public static String allBooksToJsonString(List<Book> books) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(books);
+    public static String allBookGetToJsonString(List<BookGet> books) {
+        try {
+            return objectMapper.writeValueAsString(books);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Book stringJsonToBook(String json) throws JsonProcessingException {
-        return objectMapper.readValue(json, Book.class);
+    public static BookPut stringJsonToBookPut(String json) {
+        try {
+            return objectMapper.readValue(json, BookPut.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static BookPost stringJsonToBookPost(String json) throws JsonProcessingException {
-        return objectMapper.readValue(json, BookPost.class);
+    public static BookPost stringJsonToBookPost(String json) {
+        try {
+            return objectMapper.readValue(json, BookPost.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    public static BookDelete stringJsonToBookDelete(String json) {
+        try {
+            return objectMapper.readValue(json, BookDelete.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

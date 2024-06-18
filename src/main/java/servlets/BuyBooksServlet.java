@@ -3,7 +3,6 @@ package servlets;
 import convectors.BuyBookConvector;
 import services.BuyBookService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,10 +10,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class BuyBooksServlet extends HttpServlet {
+    private BuyBookService buyBookService;
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() {
+        buyBookService = BuyBookService.getInstance();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
-        String json = BuyBookConvector.allBuyBooksToJsonString(BuyBookService.getAllBuyBooks());
+        String json = BuyBookConvector.allBuyBooksToJsonString(buyBookService.getAllBuyBooks());
         PrintWriter out = resp.getWriter();
         out.print(json);
         out.flush();

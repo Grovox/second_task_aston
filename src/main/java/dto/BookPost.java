@@ -1,14 +1,12 @@
 package dto;
 
-import model.Author;
-
 import java.util.List;
 
 public class BookPost {
     private String title;
     private float price;
     private int amount;
-    List<Author> authors;
+    private List<AuthorId> authorsId;
 
     public String getTitle() {
         return title;
@@ -34,11 +32,11 @@ public class BookPost {
         this.amount = amount;
     }
 
-    public List<Author> getAuthors() {
-        return authors;
+    public List<AuthorId> getAuthorsId() {
+        return authorsId;
     }
 
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
+    public void setAuthorsId(List<AuthorId> authorsId) {
+        this.authorsId = authorsId;
     }
 }
