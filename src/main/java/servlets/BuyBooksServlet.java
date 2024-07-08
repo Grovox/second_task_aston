@@ -1,6 +1,6 @@
 package servlets;
 
-import convectors.BuyBookConvector;
+import mapper.BuyBookMapper;
 import services.BuyBookService;
 
 import javax.servlet.http.HttpServlet;
@@ -20,7 +20,7 @@ public class BuyBooksServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
-        String json = BuyBookConvector.allBuyBooksToJsonString(buyBookService.getAllBuyBooks());
+        String json = BuyBookMapper.allBuyBooksToJsonString(buyBookService.getAllBuyBooks());
         PrintWriter out = resp.getWriter();
         out.print(json);
         out.flush();

@@ -182,3 +182,5 @@ A
 testDB.properties,f\d\fd1d9db0ea43856422df51a163231fdf46b7359b
 B
 coverage-error.log,a\7\a7e343a3bb99f4bc4c7115957802542af0f1f1d3
+;
+Jenkinsfile,0\c\0c2c5c506cef0ed2d3ad2b7e45e97980b66f5520

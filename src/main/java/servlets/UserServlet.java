@@ -1,8 +1,8 @@
 package servlets;
 
-import convectors.UserConvector;
 import dto.UserDelete;
 import dto.UserPost;
+import mapper.UserMapper;
 import model.User;
 import services.UserService;
 import validators.JsonValidator;
@@ -37,7 +37,7 @@ public class UserServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, User.class)) {
-            User user = UserConvector.stringJsonToUser(json);
+            User user = UserMapper.stringJsonToUser(json);
             if (userService.haveUserById(user.getUserId())) {
                 userService.changeUser(user);
             } else resp.sendError(412);
@@ -49,7 +49,7 @@ public class UserServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, UserPost.class)) {
-            UserPost userPost = UserConvector.stringJsonToUserPost(json);
+            UserPost userPost = UserMapper.stringJsonToUserPost(json);
             userService.addUser(userPost);
         } else resp.sendError(400);
     }
@@ -59,7 +59,7 @@ public class UserServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, UserDelete.class)) {
-            UserDelete userDelete = UserConvector.stringJsonToUserDelete(json);
+            UserDelete userDelete = UserMapper.stringJsonToUserDelete(json);
             if (userService.haveUserById(userDelete.getUserId())) {
                 userService.deleteUser(userDelete);
             } else resp.sendError(412);

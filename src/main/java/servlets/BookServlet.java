@@ -1,9 +1,9 @@
 package servlets;
 
-import convectors.BookConvector;
 import dto.BookDelete;
 import dto.BookPost;
 import dto.BookPut;
+import mapper.BookMapper;
 import services.AuthorService;
 import services.BookService;
 import validators.JsonValidator;
@@ -40,7 +40,7 @@ public class BookServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, BookPut.class)) {
-            BookPut bookPut = BookConvector.stringJsonToBookPut(json);
+            BookPut bookPut = BookMapper.stringJsonToBookPut(json);
             if (bookService.haveBookById(bookPut.getBookId()) &&
                     authorService.haveAuthorsById(bookPut.getAuthorsId())) {
                 bookService.changeBook(bookPut);
@@ -53,7 +53,7 @@ public class BookServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, BookPost.class)) {
-            BookPost bookPost = BookConvector.stringJsonToBookPost(json);
+            BookPost bookPost = BookMapper.stringJsonToBookPost(json);
             if (authorService.haveAuthorsById(bookPost.getAuthorsId())) {
                 bookService.addBook(bookPost);
             } else resp.sendError(412);
@@ -65,7 +65,7 @@ public class BookServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, BookDelete.class)) {
-            BookDelete bookDelete = BookConvector.stringJsonToBookDelete(json);
+            BookDelete bookDelete = BookMapper.stringJsonToBookDelete(json);
             if (bookService.haveBookById(bookDelete.getBookId())) {
                 bookService.deleteBook(bookDelete);
             } else resp.sendError(412);

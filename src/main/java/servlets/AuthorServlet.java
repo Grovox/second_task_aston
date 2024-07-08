@@ -1,8 +1,8 @@
 package servlets;
 
-import convectors.AuthorConvector;
 import dto.AuthorDelete;
 import dto.AuthorPost;
+import mapper.AuthorMapper;
 import model.Author;
 import services.AuthorService;
 import validators.JsonValidator;
@@ -37,7 +37,7 @@ public class AuthorServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, Author.class)) {
-            Author author = AuthorConvector.stringJsonToAuthor(json);
+            Author author = AuthorMapper.stringJsonToAuthor(json);
             if (authorService.haveAuthorById(author.getAuthorId())) {
                 authorService.changeAuthor(author);
             } else resp.sendError(412);
@@ -49,7 +49,7 @@ public class AuthorServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, AuthorPost.class)) {
-            AuthorPost authorPost = AuthorConvector.stringJsonToAuthorPost(json);
+            AuthorPost authorPost = AuthorMapper.stringJsonToAuthorPost(json);
             authorService.addAuthor(authorPost);
         } else resp.sendError(400);
     }
@@ -59,7 +59,7 @@ public class AuthorServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, AuthorDelete.class)) {
-            AuthorDelete authorDelete = AuthorConvector.stringJsonToAuthorDelete(json);
+            AuthorDelete authorDelete = AuthorMapper.stringJsonToAuthorDelete(json);
             if (authorService.haveAuthorById(authorDelete.getAuthorId())) {
                 authorService.deleteAuthor(authorDelete);
             } else resp.sendError(412);

@@ -1,6 +1,6 @@
 package servlets;
 
-import convectors.UserConvector;
+import mapper.UserMapper;
 import services.UserService;
 
 import javax.servlet.http.HttpServlet;
@@ -21,7 +21,7 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
-        String json = UserConvector.allUsersToJsonString(userService.getAllUsers());
+        String json = UserMapper.allUsersToJsonString(userService.getAllUsers());
         PrintWriter out;
 
         out = resp.getWriter();

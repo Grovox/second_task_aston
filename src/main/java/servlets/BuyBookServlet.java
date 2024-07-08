@@ -1,8 +1,8 @@
 package servlets;
 
-import convectors.BuyBookConvector;
 import dto.BuyBookDelete;
 import dto.BuyBookPost;
+import mapper.BuyBookMapper;
 import model.BuyBook;
 import services.BookService;
 import services.BuyBookService;
@@ -43,7 +43,7 @@ public class BuyBookServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, BuyBook.class)) {
-            BuyBook buyBook = BuyBookConvector.stringJsonToBuyBook(json);
+            BuyBook buyBook = BuyBookMapper.stringJsonToBuyBook(json);
             if (buyBookService.haveBuyBookById(buyBook.getBuyBookId()) &&
                     userService.haveUserById(buyBook.getUserId()) &&
                     bookService.haveBookById(buyBook.getBookId()) &&
@@ -58,7 +58,7 @@ public class BuyBookServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, BuyBookPost.class)) {
-            BuyBookPost buyBookPost = BuyBookConvector.stringJsonToBuyBookPost(json);
+            BuyBookPost buyBookPost = BuyBookMapper.stringJsonToBuyBookPost(json);
             if (userService.haveUserById(buyBookPost.getUserId()) &&
                     bookService.haveBookById(buyBookPost.getBookId()) &&
                     bookService.isEnoughBooks(buyBookPost)) {
@@ -72,7 +72,7 @@ public class BuyBookServlet extends HttpServlet {
         String json = getJsonFromRequest(req);
 
         if (JsonValidator.validJsonToClass(json, BuyBookDelete.class)) {
-            BuyBookDelete buyBook = BuyBookConvector.stringJsonToBuyBookDelete(json);
+            BuyBookDelete buyBook = BuyBookMapper.stringJsonToBuyBookDelete(json);
             if (buyBookService.haveBuyBookById(buyBook.getBuyBookId())) {
                 buyBookService.deleteBuyBook(buyBook);
             } else resp.sendError(412);
